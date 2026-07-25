@@ -1,0 +1,10 @@
+{
+  "name": "bell-notify",
+  "version": "1.0.0",
+  "description": "Rings the terminal bell when Claude Code needs your approval/input, and when it finishes a task.",
+  "author": {
+    "name": "nakahararuu"
+  },
+  "license": "MIT",
+  "keywords": ["hooks", "notification", "bell", "sound", "productivity"]
+}

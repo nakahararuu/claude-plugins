@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "nakahararuu-claude-plugins",
+  "description": "nakahararuu's Claude Code plugin marketplace: skills, hooks, and MCP servers.",
+  "owner": {
+    "name": "nakahararuu"
+  },
+  "plugins": [
+    {
+      "name": "bell-notify",
+      "description": "Rings the terminal bell when Claude Code needs your approval/input, and when it finishes a task.",
+      "version": "1.0.0",
+      "author": {
+        "name": "nakahararuu"
+      },
+      "category": "productivity",
+      "source": "./plugins/bell-notify",
+      "homepage": "https://github.com/nakahararuu/claude-plugins/tree/main/plugins/bell-notify"
+    }
+  ]
+}
