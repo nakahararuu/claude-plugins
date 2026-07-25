@@ -21,6 +21,7 @@ Claude Code 上で以下を実行します。
 | プラグイン | 説明 |
 | --- | --- |
 | [bell-notify](plugins/bell-notify) | Claude Code が承認・入力を必要としたとき、およびタスク完了時に端末のベルを鳴らす hooks |
+| [pr-comment-responder](plugins/pr-comment-responder) | GitHub PR の新規コメントを監視し、質問への回答やコード修正のコミット、ClaudeCode 名義での返信を行う skill |
 
 ## プラグインの追加方法（開発者向け）
 
