@@ -16,6 +16,17 @@
       "category": "productivity",
       "source": "./plugins/bell-notify",
       "homepage": "https://github.com/nakahararuu/claude-plugins/tree/main/plugins/bell-notify"
+    },
+    {
+      "name": "pr-comment-responder",
+      "description": "Monitor a GitHub PR for new comments and respond — answering questions, making code fixes with commits, and posting replies signed as ClaudeCode.",
+      "version": "1.0.0",
+      "author": {
+        "name": "nakahararuu"
+      },
+      "category": "productivity",
+      "source": "./plugins/pr-comment-responder",
+      "homepage": "https://github.com/nakahararuu/claude-plugins/tree/main/plugins/pr-comment-responder"
     }
   ]
 }

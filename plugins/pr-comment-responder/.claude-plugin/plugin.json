@@ -1,0 +1,10 @@
+{
+  "name": "pr-comment-responder",
+  "version": "1.0.0",
+  "description": "Monitor a GitHub PR for new comments and respond — answering questions, making code fixes with commits, and posting replies signed as ClaudeCode.",
+  "author": {
+    "name": "nakahararuu"
+  },
+  "license": "MIT",
+  "keywords": ["github", "pull-request", "review", "skill", "productivity"]
+}
