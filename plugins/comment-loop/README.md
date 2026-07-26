@@ -33,12 +33,14 @@ claude plugin install comment-loop@nakahararuu-claude-plugins
 
 **PR コメントに対応する場合：**
 
+現在チェックアウトしているブランチに紐づく PR を `gh pr view` で自動的に特定します。
+
 ```
-/pr-comment-responder https://github.com/owner/repo/pull/123
+/pr-comment-responder
 ```
 
 ```
-/loop 1m /pr-comment-responder https://github.com/owner/repo/pull/123
+/loop 1m /pr-comment-responder
 ```
 
 **コード中の TODO コメントに対応する場合：**
