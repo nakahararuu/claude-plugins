@@ -33,7 +33,7 @@ claude plugin install comment-loop@nakahararuu-claude-plugins
 
 **PR コメントに対応する場合：**
 
-現在チェックアウトしているブランチに紐づく PR を `gh pr view` で自動的に特定します。URL は渡せません（コミットを push できるのは現在のブランチの PR だけであり、別の PR を指定できてしまうと挙動が予測しにくくなるため）。
+現在チェックアウトしているブランチに紐づく PR を `gh pr view` で自動的に特定します。
 
 ```
 /pr-comment-responder
