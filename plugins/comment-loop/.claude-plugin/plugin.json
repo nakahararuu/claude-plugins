@@ -1,0 +1,10 @@
+{
+  "name": "comment-loop",
+  "version": "1.1.0",
+  "description": "Skills for asynchronous pair-programming with Claude inside an agent loop: respond to GitHub PR comments, and implement TODO comments left in code, one commit at a time.",
+  "author": {
+    "name": "nakahararuu"
+  },
+  "license": "MIT",
+  "keywords": ["github", "pull-request", "review", "todo", "git", "loop", "skill", "productivity"]
+}
