@@ -1,6 +1,6 @@
 ---
 name: pr-comment-responder
-description: Monitor a GitHub PR for new unaddressed comments and respond — answering questions, making code fixes with commits, and posting replies. Use when the user asks to "watch a PR", "babysit a PR", "respond to PR comments", "monitor PR activity", or "keep an eye on a PR". Works great with /loop for continuous monitoring. All replies are signed "by ClaudeCode" so humans can distinguish them, and fix replies include the commit link.
+description: Monitor the GitHub PR for the current branch (auto-detected via `gh pr view`, no URL needed) for new unaddressed comments and respond — answering questions, making code fixes with commits, and posting replies. Use when the user asks to "watch a PR", "babysit a PR", "respond to PR comments", "monitor PR activity", or "keep an eye on a PR". Works great with /loop for continuous monitoring. All replies are signed "by ClaudeCode" so humans can distinguish them, and fix replies include the commit link.
 ---
 
 # PR Comment Responder
@@ -9,9 +9,22 @@ Monitor a GitHub Pull Request for unaddressed comments, respond to questions, ma
 
 ## Identifying the PR
 
-Extract the PR URL from the user's message. From it, derive:
-- `owner` and `repo` from the GitHub URL path
-- `pr_number` from the URL
+The target is always the PR associated with the branch currently checked out in this session — fixes and replies only make sense for a PR you can actually push commits to, and that's the one under your feet.
+
+If the user's message includes an explicit PR URL, use that instead (they may be pointing you at a different PR than the current branch).
+
+Otherwise, derive it automatically:
+
+```bash
+gh pr view --json url,number,headRepositoryOwner,baseRepository \
+  --jq '{url, number, owner: .headRepositoryOwner.login, repo: .baseRepository.name}'
+```
+
+From the result, derive:
+- `owner` and `repo` from the GitHub URL path (or the `owner`/`repo` fields above)
+- `pr_number` from the URL (or the `number` field above)
+
+If this fails (no PR open for the current branch, detached HEAD, etc.), report the error to the user instead of guessing — don't ask them for a URL as the default path; only fall back to asking if they haven't supplied one and no PR can be resolved automatically.
 
 ## Step 1: Fetch all comments
 
