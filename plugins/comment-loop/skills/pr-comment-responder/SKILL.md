@@ -126,7 +126,8 @@ Only if no background worker is running and the working tree is clean (Step 0) �
    ```
 3. **Write the lock** before spawning, listing every comment the worker will handle:
    ```bash
-   printf '{"comment_ids": [%s], "started_at": "%s"}\n' "{id1},{id2}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$lock"
+   started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+   printf '{"comment_ids": [%s], "started_at": "%s"}\n' "{id1},{id2}" "$started_at" > "$lock"
    ```
 4. **Spawn the worker** as a general-purpose subagent with the Agent tool. It runs in the background — don't wait for its result in this tick. The worker starts with no context, so the prompt must be self-contained — use the template below.
 5. **Move on** to the next comment (questions can still be answered inline; further heavy or code-changing comments wait for a later tick) and finish the tick. You'll be notified when the worker completes.
@@ -141,7 +142,7 @@ If the Agent tool isn't available in this environment, fall back to handling the
 You are handling GitHub PR comments for the pr-comment-responder skill, in the background.
 
 Repository: {owner}/{repo}, PR #{pr_number}, branch `{branch}` (already checked out in {working_directory}).
-Lock file: {lock_path}
+Lock file: {lock_path} (started_at {started_at})
 
 Comments to handle — every one of them:
 1. {review comment on {path}:{line} | issue comment}, id {comment_id}, url {html_url}, reply target {review comment: in_reply_to_id // id | issue comment}
@@ -152,7 +153,7 @@ Comments to handle — every one of them:
    {Any thread context you already have: earlier replies, the diff hunk, related comments}
 2. ...
 
-Heartbeat: run `touch {lock_path}` at the start of every step below and before any command you expect to run long. After 60 minutes without an update the main loop treats you as dead.
+Heartbeat: at the start of every step below, and before any command you expect to run long, run `grep -qF '{started_at}' {lock_path} && touch {lock_path}`. After 60 minutes without an update the main loop treats you as dead. If the command fails, the main loop has already given up on you and may have started another worker: stop at once without changing or posting anything else, and say so in your summary.
 
 Do this:
 1. Run `git status --porcelain`. If it prints anything, the tree isn't yours to change: skip to step 5 and post a failure reply to every comment saying the working tree had uncommitted changes.
@@ -167,7 +168,7 @@ Do this:
    Write each body to its own file from `f=$(mktemp)` and pass the file, never the text inline:
    - review comment: `gh api repos/{owner}/{repo}/pulls/{pr_number}/comments/{reply_target}/replies -X POST -F body=@"$f"` (on 404, fall back to `gh issue comment {pr_number} --body-file "$f"`)
    - issue comment: `gh issue comment {pr_number} --body-file "$f"`
-6. `rm -f {lock_path}` — last, after the replies are posted.
+6. `grep -qF '{started_at}' {lock_path} && rm -f {lock_path}` — last, after the replies are posted.
 Finish with a short summary per comment: what changed, the commit SHA (if any), and whether the reply was posted.
 ```
 
